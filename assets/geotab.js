@@ -13,7 +13,7 @@ geotab.addin.tripList = () => {
      * Initialize the add-in
      */
     let initialize = () => {
-        console.log("Trip List Initialized");
+  
     };
   
     /**
@@ -24,19 +24,17 @@ geotab.addin.tripList = () => {
     };
   
     let onAppStart = () => {
+      loadTripListRuntime();
+      loadTripListPolyfill();
+      loadTripListMain();
+  
         api.getSession((result) => {
-
-            loadTripListRunTime();
-            loadTripListPolyfill();
-            loadTripListMain();
-            
-
             angularAppInitCheckInterval = setInterval(() => {
                 if(window.myTripListNgAppRef && window.myTripListNgAppRef.zone){
                     window.myTripListNgAppRef.zone.run(() => { window.myTripListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
                     clearAngularAppinitCheck();
                 }else{
-                    console.log("Trip List app not ready yet, checking again");
+                    console.log("trip profile app not ready yet, checking again");
                 }
             },500)
         });
@@ -47,7 +45,6 @@ geotab.addin.tripList = () => {
     * App Logic
     */
     let render = () => {
-          console.log("Trip List Rendered");
           onAppStart();
     }
   
@@ -55,9 +52,8 @@ geotab.addin.tripList = () => {
      * Aborts
      */
     let abort = () => {
-        console.log("Trip List Aborted");
-        window.webpackJsonp= []
         clearAngularAppinitCheck();
+        window.webpackJsonp = []
     };
   
     return {
