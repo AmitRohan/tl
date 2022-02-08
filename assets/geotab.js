@@ -26,9 +26,9 @@ geotab.addin.tripList = () => {
     let onAppStart = () => {
         api.getSession((result) => {
 
-            loadAppRunTime();
-            loadAppPolyfill();
-            loadAppMain();
+            loadTripListRunTime();
+            loadTripListPolyfill();
+            loadTripListMain();
             
 
             angularAppInitCheckInterval = setInterval(() => {
