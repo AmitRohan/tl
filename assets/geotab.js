@@ -29,6 +29,7 @@ geotab.addin.tripList = () => {
       loadTripListMain();
   
         api.getSession((result) => {
+            console.log(result);
             angularAppInitCheckInterval = setInterval(() => {
                 if(window.myTripListNgAppRef && window.myTripListNgAppRef.zone){
                     window.myTripListNgAppRef.zone.run(() => { window.myTripListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
