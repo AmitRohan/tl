@@ -39,6 +39,18 @@ geotab.addin.tripList = () => {
                 }
             },500)
         });
+        
+            api.call("Get", {
+                typeName: "Group"
+            }, function(result) {
+                if (result !== undefined && result.length > 0) {
+                    console.log("Gr",result);
+                }
+               
+            }, function(error) {
+                console.log(error);
+            });
+            
     };
   
     /**
