@@ -32,14 +32,25 @@ geotab.addin.tripList = () => {
             console.log("Session =>",result);
             
             api.call('Get', { typeName: 'Device')
-                .then( result => {
-                    console.log("Devices =>",result);
+                .then( _result => {
+                    console.log("Devices =>",_result);
+                        api.call("Get", {
+                            typeName: "Group"
+                        }, function(__result) {
+                            if (__result !== undefined && __result.length > 0) {
+                                console.log("Group => ",__result);
+                            }
+
+                        }, function(error) {
+                            console.log(error);
+                        });
+            
                         angularAppInitCheckInterval = setInterval(() => {
                             if(window.myTripListNgAppRef && window.myTripListNgAppRef.zone){
                                 window.myTripListNgAppRef.zone.run(() => { window.myTripListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
                                 clearAngularAppinitCheck();
                             }else{
-                                console.log("trip profile app not ready yet, checking again");
+                                console.log("trip List app not ready yet, checking again");
                             }
                         },500)
 
@@ -47,19 +58,7 @@ geotab.addin.tripList = () => {
                 .catch( error => {
                     console.log("Device Fetch Error",error);
                 });            
-        });
-        
-//             api.call("Get", {
-//                 typeName: "Group"
-//             }, function(result) {
-//                 if (result !== undefined && result.length > 0) {
-//                     console.log("Gr",result);
-//                 }
-               
-//             }, function(error) {
-//                 console.log(error);
-//             });
-            
+        }); 
     };
   
     /**
