@@ -29,27 +29,36 @@ geotab.addin.tripList = () => {
       loadTripListMain();
   
         api.getSession((result) => {
-            console.log(result);
-            angularAppInitCheckInterval = setInterval(() => {
-                if(window.myTripListNgAppRef && window.myTripListNgAppRef.zone){
-                    window.myTripListNgAppRef.zone.run(() => { window.myTripListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
-                    clearAngularAppinitCheck();
-                }else{
-                    console.log("trip profile app not ready yet, checking again");
-                }
-            },500)
+            console.log("Session =>",result);
+            
+            api.call('Get', { typeName: 'Device')
+                .then( result => {
+                    console.log("Devices =>",result);
+                        angularAppInitCheckInterval = setInterval(() => {
+                            if(window.myTripListNgAppRef && window.myTripListNgAppRef.zone){
+                                window.myTripListNgAppRef.zone.run(() => { window.myTripListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
+                                clearAngularAppinitCheck();
+                            }else{
+                                console.log("trip profile app not ready yet, checking again");
+                            }
+                        },500)
+
+                })
+                .catch( error => {
+                    console.log("Device Fetch Error",error);
+                });            
         });
         
-            api.call("Get", {
-                typeName: "Group"
-            }, function(result) {
-                if (result !== undefined && result.length > 0) {
-                    console.log("Gr",result);
-                }
+//             api.call("Get", {
+//                 typeName: "Group"
+//             }, function(result) {
+//                 if (result !== undefined && result.length > 0) {
+//                     console.log("Gr",result);
+//                 }
                
-            }, function(error) {
-                console.log(error);
-            });
+//             }, function(error) {
+//                 console.log(error);
+//             });
             
     };
   
