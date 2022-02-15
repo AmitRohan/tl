@@ -31,7 +31,7 @@ geotab.addin.tripList = () => {
         api.getSession((result) => {
             console.log("Session =>",result);
             
-            api.call('Get', { typeName: 'Device'))
+            api.call('Get', { typeName: 'Device'})
                 .then( _result => {
                     console.log("Devices =>",_result);
                         api.call("Get", {
