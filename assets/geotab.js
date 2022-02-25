@@ -22,22 +22,43 @@ geotab.addin.tripList = () => {
     let clearAngularAppinitCheck = () => {
         clearInterval(angularAppInitCheckInterval);
     };
-  
+      
     let onAppStart = () => {
       loadTripListRuntime();
       loadTripListPolyfill();
       loadTripListMain();
-  
+   
         api.getSession((result) => {
-            angularAppInitCheckInterval = setInterval(() => {
-                if(window.myTripListNgAppRef && window.myTripListNgAppRef.zone){
-                    window.myTripListNgAppRef.zone.run(() => { window.myTripListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
-                    clearAngularAppinitCheck();
-                }else{
-                    console.log("trip profile app not ready yet, checking again");
-                }
-            },500)
-        });
+            console.log("Session =>",result);
+            
+            api.call('Get', { typeName: 'Device'})
+                .then( _result => {
+                    console.log("Devices =>",_result);
+                        api.call("Get", {
+                            typeName: "Group"
+                        }, function(__result) {
+                            if (__result !== undefined && __result.length > 0) {
+                                console.log("Group => ",__result);
+                            }
+
+                        }, function(error) {
+                            console.log(error);
+                        });
+            
+                        angularAppInitCheckInterval = setInterval(() => {
+                            if(window.myTripListNgAppRef && window.myTripListNgAppRef.zone){
+                                window.myTripListNgAppRef.zone.run(() => { window.myTripListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
+                                clearAngularAppinitCheck();
+                            }else{
+                                console.log("trip List app not ready yet, checking again");
+                            }
+                        },500)
+
+                })
+                .catch( error => {
+                    console.log("Device Fetch Error",error);
+                });            
+        }); 
     };
   
     /**
