@@ -24,9 +24,10 @@ geotab.addin.tripList = () => {
     };
       
     let onAppStart = () => {
-      loadTripListRuntime();
-      loadTripListPolyfill();
-      loadTripListMain();
+        localStorage.setItem("appData","");
+        loadTripListRuntime();
+        loadTripListPolyfill();
+        loadTripListMain();
    
         api.getSession((result) => {
             console.log("Session =>",result);
