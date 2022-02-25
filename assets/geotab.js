@@ -22,11 +22,34 @@ geotab.addin.tripList = () => {
     let clearAngularAppinitCheck = () => {
         clearInterval(angularAppInitCheckInterval);
     };
+    
+    let storeDataForAddIn = (objectToStore) => {
+        api.call("Add", {
+            "typeName": "AddInData",
+            "entity": {
+                addInId,
+                data : objectToStore
+            }
+        }).then((result , err) => {
+            console.log("1",result,err);
+        });
+    }
+
+    let readDataForAddIn = () => {
+        api.call("Get", {
+            "typeName": "AddInData",
+            "search": { addInId }
+        }).then( (result , err) => {
+            console.log("2",result,err);
+        });
+    }
   
     let onAppStart = () => {
       loadTripListRuntime();
       loadTripListPolyfill();
       loadTripListMain();
+        window.abcd1 = storeDataForAddIn;
+        window.abcd2 = readDataForAddIn;
   
         api.getSession((result) => {
             console.log("Session =>",result);
