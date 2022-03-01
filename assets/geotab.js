@@ -31,35 +31,16 @@ geotab.addin.tripList = () => {
         loadTripListMain();
    
         api.getSession((result) => {
-            console.log("Session =>",result);
+            angularAppInitCheckInterval = setInterval(() => {
+                if(window.myNgAppRef && window.myNgAppRef){
+                    window.myNgAppRef.loadGeoTabSDKData(result.userName,result.sessionId,result.database);
+                    clearAngularAppinitCheck();
+                }else{
+                    console.log("trip app not ready yet, checking again");
+                }
+            },500)
             
-            api.call('Get', { typeName: 'Device'})
-                .then( _result => {
-                    console.log("Devices =>",_result);
-                        api.call("Get", {
-                            typeName: "Group"
-                        }, function(__result) {
-                            if (__result !== undefined && __result.length > 0) {
-                                console.log("Group => ",__result);
-                            }
-
-                        }, function(error) {
-                            console.log(error);
-                        });
-            
-                        angularAppInitCheckInterval = setInterval(() => {
-                            if(window.myNgAppRef && window.myNgAppRef){
-                                window.myNgAppRef.loadGeoTabSDKData(result.userName,result.sessionId,result.database);
-                                clearAngularAppinitCheck();
-                            }else{
-                                console.log("trip app not ready yet, checking again");
-                            }
-                        },500)
-
-                })
-                .catch( error => {
-                    console.log("Device Fetch Error",error);
-                });            
+                      
         }); 
     };
   
