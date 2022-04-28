@@ -31,7 +31,7 @@ geotab.addin.tripList = () => {
         loadTripListMain();
    
         api.getSession((result) => {
-            var groupIds = state.getGroupFilter();
+            var groupIds = state.getGroupFilter().map(_ => _.id);
             console.log(groupIds);
             angularAppInitCheckInterval = setInterval(() => {
                 if(window.myNgAppRef && window.myNgAppRef){
