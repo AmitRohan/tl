@@ -39,9 +39,7 @@ geotab.addin.tripList = () => {
             console.log(groupIds);
             angularAppInitCheckInterval = setInterval(() => {
                 if(window.myNgAppRef && window.myNgAppRef){
-                    try{
-                        window.myNgAppRef.loadGeoTabSDKData(result.userName,result.sessionId,result.database,groupIds,state);
-                    }catch(e) { console.log(e) }
+                    setTimeout(() => { window.myNgAppRef.loadGeoTabSDKData(result.userName,result.sessionId,result.database,groupIds,state); },500);
                     clearAngularAppinitCheck();
                 }else{
                     console.log("trip app not ready yet, checking again");
