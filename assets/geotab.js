@@ -36,7 +36,6 @@ geotab.addin.tripList = () => {
    
         api.getSession((result) => {
             var groupIds = state.getGroupFilter().map(_ => _.id);
-            console.log(groupIds);
             angularAppInitCheckInterval = setInterval(() => {
                 if(window.myNgAppRef && window.myNgAppRef){
                     setTimeout(() => { window.myNgAppRef.loadGeoTabSDKData(result.userName,result.sessionId,result.database,groupIds,state); },500);
